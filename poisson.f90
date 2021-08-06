@@ -44,17 +44,17 @@ program poisson
     k = 1
     do while (err > tolerance)
       Uold = U 
-      maxerr=0.0_dp
+      maxerr=0.0_dp        !lo devo riniziaizzare perche' altrimenti mi porto lo strascico dell'errore vecchio (che e' sempre piu' grosso)
  
-      do j = 2, N-1
+      do j = 2, N-1         !j parte da 2 perche' sul bordo resta fissa al valore 0
         do i = 2, N-1
          
-          if (i >= N/2-10 .and. i<=N/2+10 .and. j>=N/2-10 .and. j<=N/2+10) cycle  
+          if (i >= N/2-10 .and. i<=N/2+10 .and. j>=N/2-10 .and. j<=N/2+10) cycle  ! cycle vuol dire salta quell'iterazione del ciclo
           
-          U(i,j) = (Uold(i-1,j) + Uold(i+1,j) + Uold(i,j-1) + Uold(i,j+1))/4.0_dp
+          U(i,j) = (Uold(i-1,j) + Uold(i+1,j) + Uold(i,j-1) + Uold(i,j+1))/4.0_dp  !c'e' U old, e' un'approssimazione
           
           if (abs(Uold(i,j)-U(i,j)) > maxerr ) then
-             maxerr = abs(Uold(i,j) - U(i,j))
+             maxerr = abs(Uold(i,j) - U(i,j))        !e' la massima differenza tra gli elementi delle 2 matrici, ha senso perche' voglio che converga componente per componente
           end if
      
         end do
